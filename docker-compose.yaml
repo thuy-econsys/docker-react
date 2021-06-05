@@ -1,0 +1,27 @@
+version: '3'
+services:
+  client:
+    stdin_open: true
+    container_name: frontend
+    build:
+        context: .
+        dockerfile: Dockerfile.dev
+    volumes:
+      - .:/opt/md715
+      - node_modules:/opt/md715/node_modules
+      - public:/opt/md715/public
+    ports:
+      - 3000:3000
+  test:
+    stdin_open: true
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/opt/md715
+      - node_modules:/opt/md715/node_modules
+    command: ["yarn", "test"]
+
+volumes:
+  node_modules:
+  public:
