@@ -1,0 +1,24 @@
+FROM node:alpine
+
+ENV APP="md715"
+
+#Ports to expose
+EXPOSE 3000
+
+#Patch and mkdir, must run as root
+RUN apk upgrade --available && \
+    mkdir -p /opt/md715 && \
+    chown -R node:node /opt/md715
+
+USER node
+WORKDIR /opt/md715
+
+COPY --chown=node:node ./package.json .
+
+RUN yarn install
+
+COPY --chown=node:node . .
+
+# hardening
+
+CMD ["/bin/ash", "/opt/md715/dev_entrypoint.sh"]
