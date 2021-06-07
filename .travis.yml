@@ -1,0 +1,24 @@
+language: generic
+
+sudo: required
+
+services: 
+  - docker
+
+before_install:
+  - docker build -t thuye/docker-react -f Dockerfile.dev .
+
+script: 
+  - docker run -e CI=true thuye/docker-react yarn test
+
+deploy:
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  provider: elasticbeanstalk
+  region: us-gov-west-1
+  app: docker-create
+  env: Dockercreate-env
+  bucket_name: elasticbeanstalk-us-gov-west-1-029803331920
+  bucket_path: docker-create
+  on:
+    branch: main
