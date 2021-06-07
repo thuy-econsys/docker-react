@@ -19,7 +19,7 @@ RUN yarn build
 FROM nginx
 
 # needed for ElasticBeanstalk
-EXPOSE 3000
+EXPOSE 80
 
 # copy over build directory generated in Build
 COPY --from=BuildImage /opt/md715/build /usr/share/nginx/html
